@@ -25,7 +25,12 @@ Matrícula: 202004728 <br> <br> <br>
 ### Encerramento da Comunicação <br> <br>
 
 &emsp; Os peers enviam mensagens de "stop" quando não têm mais mensagens para enviar. <br>
-&emsp; Quando todos os peers enviaram suas mensagens de "stop", a comunicação é encerrada.
+&emsp; Quando todos os peers enviaram suas mensagens de "stop", a comunicação é encerrada. <br> <br> 
+
+## <b>Considerações</b> <br> <br>
+
+&emsp; Essa abordagem pode ter limitações em termos de escalabilidade e tratamento de falhas. A falta de coordenação pode levar a problemas de sincronização, como no caso visto em laboratório no qual diferentes peers recebem as mensagens em ordens diferentes, resultando em inconsistências nos registros de mensagens e na comparação pelo servidor central. <br>
+&emsp; Uma solução para esse problema seria implementar um mecanismo de ordenação das mensagens, como: multicast totalmente ordenado, carimbo de timestamps nas mensagens (necessitaria de sincronismo temporal entre os peers) ou relógios lógicos (uma abordagem mais em relação à coerência de ordenação que ao timestamp em si).
 
 
 
