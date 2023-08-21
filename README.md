@@ -1,8 +1,31 @@
-# MPComm
-Very simple demo of multicast communication without coordination.
-A set of peer processes is established and each process multicasts a sequence of messages to all other processes at random intervals. Messages are stamped with the ID of the sending process and a local sequence number defined by the sending process. This is a simple attempt to demonstrate the problem of message ordering (or, in this version, the lack of it).
+Aluno: Matheus Carlos Lima e Silva <br>
+Matrícula: 202004728 <br> <br> <br>
 
-The peer processes run the PeerCommunicatorUDP.py program, which has two separate threads, one for sending and the other for receiving messages. A basic handshaking protocol is used to synchronize the processes before they actually start multicasting the sequence of messages. Also, a fixed timer is set to allow plenty of time to start all processes on the participating machines. At the end, each process sends the sequence received messages to a server, which compares the sequences of messages received by all the processes to determine the number of messages received out of order (actually, the number of rounds in which at least one process received a different message form the others).
+## <b>Funcionamento básico</b> <br> <br>
+
+&emsp; Nesse sistema cada processo envia mensagens de "handshake" para indicar prontidão e, em seguida, troca mensagens de dados. As mensagens são armazenadas em arquivos de log individuais e comparadas por um servidor central. <br> <br>
+
+## <b>Componentes</b> <br> <br>
+
+### Handshake e Inicialização <br> <br>
+
+&emsp; Cada processo peer inicia enviando mensagens de "handshake" para indicar que está pronto para se comunicar. <br>
+&emsp; Os handshakes são trocados entre os peers para estabelecer a disponibilidade de todos. A recepção de mensagens só começa após todos os processos enviarem seus hadshakes (handShakeCount = N). <br> <br>
+
+### Recepção de Dados <br> <br>
+
+&emsp; Cada processo peer cria uma thread chamada MsgHandler para lidar com a recepção de mensagens de dados dos outros peers. <br>
+&emsp; As mensagens são recebidas usando um socket e são armazenadas em arquivos de log individuais para cada peer. <br> <br>
+
+### Comparação de Mensagens <br> <br>
+
+&emsp; Após receber todas as mensagens de dados, os peers enviam suas mensagens para um servidor de comparação usando um socket. <br>
+&emsp; O servidor compara as mensagens de todos os peers para verificar se as ordens são consistentes. <br> <br>
+
+### Encerramento da Comunicação <br> <br>
+
+&emsp; Os peers enviam mensagens de "stop" quando não têm mais mensagens para enviar. <br>
+&emsp; Quando todos os peers enviaram suas mensagens de "stop", a comunicação é encerrada.
 
 
-In order to actually see the problem, it is necessary to run the peer processes on different networks (e.g., run some of the processes in one region of the cloud, whereas the others are run on another region).
+
